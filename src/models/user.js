@@ -23,8 +23,9 @@ const userSchema=new mogoose.Schema({
         trim:true,
         validate(value){
             //Minimum eight characters, at least one letter and one number:
-            if(!value.match("^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$")){
-                throw new Error("Pwd must contain Minimum eight characters, at least one letter and one number")
+            //if(!value.match("^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$")){
+            if(value.length<8){
+                throw new Error("Pwd must be having length greater than 8")
             } 
         }
     },
@@ -32,12 +33,7 @@ const userSchema=new mogoose.Schema({
         type:String,
         trim:true
     },
-    tokens:[
-        {
-            type:String,
-            required:true
-        }
-    ]
+    
 },{
     timestamps:true
 })

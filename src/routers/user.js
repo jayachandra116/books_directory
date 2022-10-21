@@ -34,10 +34,26 @@ router.get('/users/:id',async (req,res)=>{
         if(!user){
             status=400
         }
-        res.status(status).send(user?user:null);
+        let responseObject={
+            email:user.email,
+            profileName:user.profileName,
+            lastUpdated:user.updatedAt
+        }
+        res.status(status).send(user?responseObject:null);
     } catch (e) {
         console.error(e);
         res.status(404).send()
+    }
+})
+
+router.post('/users', async (req,res)=>{
+    try {
+        const user=req.body.user;
+        const dbUserObject=new User(user);
+        await dbUserObject.save();
+        res.status(200).send({user:dbUserObject})
+    } catch (e) {
+        res.status(404).send(e)
     }
 })
 
