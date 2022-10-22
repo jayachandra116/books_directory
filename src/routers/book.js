@@ -72,4 +72,17 @@ router.post("/books/add", async (req, res) => {
   }
 });
 
+router.delete('/books/:id',async (req,res)=>{
+    try {
+        if(isReqIsValid(req.params.id)){
+            const book=await Book.findByIdAndDelete(req.params.id)
+            res.send({message:"Deleted book succesfully",book});
+        }else{
+            res.status(400).send({error:"Provided Id is invalid"})
+        }
+    } catch (e) {
+        res.status(404).send(e.message)
+    }
+})
+
 module.exports = router;
